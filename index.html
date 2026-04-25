@@ -1,0 +1,316 @@
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Zap, 
+  Users, 
+  Trophy, 
+  ShieldCheck, 
+  ChevronDown,
+  Menu,
+  X,
+  Target,
+  ArrowRight,
+  ExternalLink,
+  Send
+} from 'lucide-react';
+
+const App = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const scrollToSection = (id) => {
+    const element = document.getElementById(id);
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+    setIsMenuOpen(false);
+  };
+
+  const fadeInUp = {
+    initial: { opacity: 0, y: 30 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true },
+    transition: { duration: 0.6, ease: "easeOut" }
+  };
+
+  // URL-uri de imagini publice pentru a asigura vizibilitatea
+  const images = {
+    hero: "https://images.unsplash.com/photo-1522163182402-834f871fd851?q=80&w=2003&auto=format&fit=crop",
+    technique: "https://images.unsplash.com/photo-1516627145497-ae6968895b74?q=80&w=2040&auto=format&fit=crop",
+    community: "https://images.unsplash.com/photo-1564769662533-4f00a87b4056?q=80&w=2044&auto=format&fit=crop"
+  };
+
+  return (
+    <div className="min-h-screen bg-black text-white font-sans selection:bg-[#FF4B1F] selection:text-white overflow-x-hidden">
+      {/* Navigație */}
+      <nav className="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-white/5">
+        <div className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => window.scrollTo({top: 0, behavior: 'smooth'})}>
+            <span className="text-2xl font-black tracking-tighter text-[#FF4B1F]">SENDLAB</span>
+            <div className="h-1.5 w-1.5 bg-[#FF4B1F] rounded-full mt-2"></div>
+          </div>
+
+          <div className="hidden md:flex items-center gap-8 text-sm font-medium tracking-widest uppercase">
+            <button onClick={() => scrollToSection('despre')} className="hover:text-[#FF4B1F] transition-colors">Ce este bouldering</button>
+            <button onClick={() => scrollToSection('beneficii')} className="hover:text-[#FF4B1F] transition-colors">De ce Suceava</button>
+            <button onClick={() => scrollToSection('comunitate')} className="hover:text-[#FF4B1F] transition-colors">Comunitate</button>
+            <button onClick={() => scrollToSection('formular')} className="px-6 py-2 border border-[#FF4B1F] text-[#FF4B1F] hover:bg-[#FF4B1F] hover:text-white transition-all duration-300 rounded-full">
+              Formular Înscriere
+            </button>
+          </div>
+
+          <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X size={28} /> : <Menu size={28} />}
+          </button>
+        </div>
+
+        {/* Meniu Mobil */}
+        <AnimatePresence>
+          {isMenuOpen && (
+            <motion.div 
+              initial={{ opacity: 0, x: '100%' }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: '100%' }}
+              className="fixed inset-0 top-20 bg-black z-40 flex flex-col p-8 gap-8"
+            >
+              <button onClick={() => scrollToSection('despre')} className="text-3xl font-bold">Ce este</button>
+              <button onClick={() => scrollToSection('beneficii')} className="text-3xl font-bold">Beneficii</button>
+              <button onClick={() => scrollToSection('comunitate')} className="text-3xl font-bold">Comunitate</button>
+              <button onClick={() => scrollToSection('formular')} className="text-3xl font-bold text-[#FF4B1F]">Înscrie-te</button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </nav>
+
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center pt-20 px-6 overflow-hidden">
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 bg-gradient-to-r from-black via-black/40 to-transparent z-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black z-10"></div>
+          <img 
+            src={images.hero} 
+            alt="[Imagine cu un cățărător pe un perete de stâncă]" 
+            className="w-full h-full object-cover"
+          />
+        </div>
+
+        <div className="max-w-7xl mx-auto w-full z-20 relative">
+          <motion.div 
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="max-w-3xl"
+          >
+            <div className="inline-flex items-center gap-2 py-1 px-3 border border-[#FF4B1F]/30 bg-[#FF4B1F]/10 rounded-full mb-6">
+              <span className="relative flex h-2 w-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF4B1F] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF4B1F]"></span>
+              </span>
+              <span className="text-[#FF4B1F] text-[10px] md:text-xs font-bold tracking-[0.2em] uppercase">Primul hub de bouldering din Suceava</span>
+            </div>
+            <h1 className="text-6xl md:text-[100px] font-black mb-6 tracking-tight leading-[0.9] uppercase italic">
+              Climb.<br />Fall.<br /><span className="text-[#FF4B1F] not-italic">Send.</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-200 mb-8 max-w-xl font-light leading-snug drop-shadow-lg">
+              Prima sală de bouldering din <span className="text-white font-bold">Suceava</span>. Provocări reale pentru cei ce caută mai mult decât o sală de fitness.
+            </p>
+            
+            <div className="flex flex-col sm:flex-row gap-4">
+              <button 
+                onClick={() => scrollToSection('formular')}
+                className="px-10 py-5 bg-[#FF4B1F] text-white font-black text-lg rounded-full flex items-center justify-center gap-2 hover:bg-[#e63e15] hover:scale-105 active:scale-95 transition-all shadow-[0_0_40px_rgba(255,75,31,0.3)]"
+              >
+                Completează Formularul <ArrowRight size={22} />
+              </button>
+              <button 
+                onClick={() => scrollToSection('despre')}
+                className="px-10 py-5 bg-white/5 backdrop-blur-md border border-white/10 hover:bg-white/10 transition-colors font-bold text-lg rounded-full text-center"
+              >
+                Ce este bouldering-ul?
+              </button>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="absolute bottom-10 left-1/2 -translate-x-1/2 animate-bounce opacity-30">
+          <ChevronDown size={32} />
+        </div>
+      </section>
+
+      {/* Problem Section */}
+      <section className="py-24 px-6 bg-black border-y border-white/5">
+        <div className="max-w-4xl mx-auto">
+          <motion.div {...fadeInUp} className="text-center">
+            <h2 className="text-3xl md:text-5xl font-black mb-8 italic uppercase tracking-tighter">Rutina te omoară?</h2>
+            <p className="text-xl text-gray-400 font-light leading-relaxed">
+              Benzile de alergat și ganterele pot deveni plictisitoare. Bouldering-ul transformă antrenamentul într-un <span className="text-white font-semibold">joc strategic</span> de forță și agilitate unde fiecare traseu este o victorie personală.
+            </p>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Ce este Bouldering-ul */}
+      <section id="despre" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
+          <motion.div {...fadeInUp} className="relative group">
+            <div className="absolute -inset-4 bg-[#FF4B1F]/20 rounded-3xl blur-2xl group-hover:bg-[#FF4B1F]/30 transition-all duration-500"></div>
+            <img 
+              src={images.technique} 
+              alt="[Imagine cu o persoană care practică bouldering la interior]" 
+              className="relative rounded-2xl grayscale hover:grayscale-0 transition-all duration-1000 shadow-2xl w-full h-[600px] object-cover"
+            />
+          </motion.div>
+          <motion.div {...fadeInUp} transition={{ delay: 0.2 }}>
+            <h2 className="text-4xl font-black mb-8 italic">Puzzle-ul fizic de care ai nevoie</h2>
+            <p className="text-xl text-gray-400 mb-8 leading-relaxed">
+              Bouldering-ul înseamnă cățărat la înălțimi reduse, protejat de saltele profesionale. Nu ai nevoie de corzi sau partener de asigurare. Doar tu, peretele și tehnica ta.
+            </p>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+              {[
+                { title: 'Libertate totală', desc: 'Fără hamuri sau noduri complicate.' },
+                { title: 'Siguranță maximă', desc: 'Saltele groase sub orice perete.' },
+                { title: 'Accesibilitate', desc: 'Poți începe astăzi, indiferent de nivel.' },
+                { title: 'Echipament minim', desc: 'Ai nevoie doar de espadrile de cățărat.' }
+              ].map((item, i) => (
+                <div key={i} className="flex gap-3">
+                  <div className="mt-1"><Target size={18} className="text-[#FF4B1F]" /></div>
+                  <div>
+                    <h4 className="font-bold text-white uppercase text-sm tracking-widest">{item.title}</h4>
+                    <p className="text-gray-500 text-sm">{item.desc}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Comunitate */}
+      <section id="comunitate" className="py-32 px-6 bg-[#080808]">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid md:grid-cols-2 gap-20 items-center">
+             <motion.div {...fadeInUp}>
+              <h2 className="text-4xl md:text-5xl font-black mb-8 italic uppercase leading-[0.9]">Nu vii doar pentru sport. <br />Vii pentru <span className="text-[#FF4B1F] not-italic">vibrație.</span></h2>
+              <p className="text-xl text-gray-400 mb-8 font-light">
+                La SENDLAB, pauzele dintre trasee sunt la fel de importante ca momentele de pe perete. Este locul unde găsești oameni care te încurajează să reușești acea ultimă mișcare dificilă.
+              </p>
+              <div className="flex gap-8 items-center border-t border-white/10 pt-8">
+                <div>
+                  <span className="block text-3xl font-black text-white">01.</span>
+                  <span className="text-xs uppercase tracking-widest text-[#FF4B1F] font-bold">Socializare</span>
+                </div>
+                <div>
+                  <span className="block text-3xl font-black text-white">02.</span>
+                  <span className="text-xs uppercase tracking-widest text-[#FF4B1F] font-bold">Inovație</span>
+                </div>
+                <div>
+                  <span className="block text-3xl font-black text-white">03.</span>
+                  <span className="text-xs uppercase tracking-widest text-[#FF4B1F] font-bold">Suceava</span>
+                </div>
+              </div>
+            </motion.div>
+            <motion.div {...fadeInUp} className="rounded-3xl overflow-hidden shadow-2xl relative group">
+              <div className="absolute inset-0 bg-[#FF4B1F]/10 group-hover:bg-transparent transition-colors duration-500 z-10"></div>
+              <img 
+                src={images.community} 
+                alt="[Imagine cu un grup de oameni într-o sală de cățărare]" 
+                className="w-full h-[500px] object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
+              />
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* Beneficii Grid */}
+      <section id="beneficii" className="py-32 px-6">
+        <div className="max-w-7xl mx-auto">
+          <motion.div {...fadeInUp} className="mb-20 text-center">
+            <h2 className="text-4xl md:text-5xl font-black mb-4 uppercase italic">De ce avem nevoie de asta?</h2>
+            <div className="h-1 w-24 bg-[#FF4B1F] mx-auto"></div>
+          </motion.div>
+
+          <div className="grid md:grid-cols-3 gap-1">
+            {[
+              { Icon: Zap, title: 'Full Body Workout', text: 'Lucrezi mușchi de care nu știai că există.' },
+              { Icon: Trophy, title: 'Progres Vizibil', text: 'Sistem de culori pe grade, de la V0 la V10.' },
+              { Icon: Users, title: 'Networking', text: 'Comunitatea de climberi este extrem de deschisă.' },
+              { Icon: ShieldCheck, title: 'Antistres', text: 'Focus-ul necesar pe perete îți golește mintea de griji.' },
+              { Icon: Send, title: 'Locație Centrală', text: 'Vrem să fim aproape de tine, în inima orașului.' },
+              { Icon: Target, title: 'Viziune', text: 'O sală creată de cățărători pentru comunitate.' }
+            ].map((benefit, i) => (
+              <motion.div 
+                key={i} 
+                className="p-12 bg-white/[0.02] border border-white/5 hover:bg-white/[0.05] transition-all cursor-default"
+              >
+                <div className="text-[#FF4B1F] mb-6">
+                  <benefit.Icon size={28} />
+                </div>
+                <h3 className="text-xl font-bold mb-3 uppercase tracking-tighter italic">{benefit.title}</h3>
+                <p className="text-gray-500 text-sm leading-relaxed">{benefit.text}</p>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Secțiunea Formular Google */}
+      <section id="formular" className="py-32 px-6 bg-[#FF4B1F]/5 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto relative z-10">
+          <motion.div {...fadeInUp} className="text-center mb-16">
+            <h2 className="text-5xl font-black mb-8 italic leading-[0.9]">Ești gata să intri în <span className="text-[#FF4B1F] not-italic underline decoration-4 underline-offset-8">echipă?</span></h2>
+            <p className="text-xl text-gray-400 max-w-2xl mx-auto font-light mb-8">
+              Completează formularul de mai jos pentru a ne ajuta să deschidem SENDLAB cât mai curând. Opinia ta contează enorm!
+            </p>
+            <a 
+              href="https://docs.google.com/forms/d/e/1FAIpQLSdU3hCiRZDmAz_O1qYvp3MEmuO1N8EMGgaxbm4hD6Fs08NDSA/viewform" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 text-[#FF4B1F] font-bold hover:underline mb-12"
+            >
+              Deschide formularul în fereastră nouă <ExternalLink size={16} />
+            </a>
+          </motion.div>
+
+          <motion.div 
+            {...fadeInUp}
+            className="w-full max-w-4xl mx-auto bg-[#0f0f0f] rounded-3xl border border-white/10 shadow-2xl overflow-hidden"
+            style={{ height: '800px' }}
+          >
+            <iframe 
+              src="https://docs.google.com/forms/d/e/1FAIpQLSdU3hCiRZDmAz_O1qYvp3MEmuO1N8EMGgaxbm4hD6Fs08NDSA/viewform?embedded=true" 
+              width="100%" 
+              height="100%" 
+              frameBorder="0" 
+              marginHeight="0" 
+              marginWidth="0"
+              title="Formular Inscriere SENDLAB"
+            >
+              Se încarcă...
+            </iframe>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="py-20 px-6 border-t border-white/5 bg-black">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-10">
+          <div className="text-center md:text-left">
+            <div className="flex items-center gap-2 mb-4 justify-center md:justify-start">
+              <span className="text-3xl font-black tracking-tighter text-[#FF4B1F]">SENDLAB</span>
+            </div>
+            <p className="text-gray-600 uppercase tracking-[0.3em] text-[10px] font-bold">Climb. Fall. Send.</p>
+          </div>
+          <div className="flex gap-8 text-gray-500 text-[10px] font-black uppercase tracking-widest">
+            <a href="#" className="hover:text-[#FF4B1F] transition-colors">Instagram</a>
+            <a href="#" className="hover:text-[#FF4B1F] transition-colors">Facebook</a>
+          </div>
+          <p className="text-gray-700 text-[10px] font-medium text-center italic">
+            Acesta este un proiect de cercetare a pieței. <br />
+            © 2024 SENDLAB SUCEAVA. Toate drepturile rezervate.
+          </p>
+        </div>
+      </footer>
+    </div>
+  );
+};
+
+export default App;
